@@ -3,5 +3,7 @@ require 'active_support/dependencies/autoload'
 
 module CompoundCommands
   extend ActiveSupport::Autoload
+
+  autoload :Command
 end
 

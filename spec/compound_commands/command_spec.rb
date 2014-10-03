@@ -2,9 +2,17 @@ require 'spec_helper'
 
 RSpec.describe CompoundCommands::Command do
   let(:input) { double(:input) }
-  subject { CompoundCommands::Command.new(input) }
+  let(:execution) { double('execution') }
+  subject(:command) { CompoundCommands::Command.new(input) }
 
   it '#input' do
-    expect(subject.input).to contain_exactly input
+    expect(command.input).to contain_exactly input
+  end
+
+  it 'delegte #interrupted? to execution' do
+    command.execution = execution
+    expect(execution).to receive(:interrupted?)
+
+    command.interrupted?
   end
 end

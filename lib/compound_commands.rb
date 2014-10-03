@@ -5,5 +5,6 @@ module CompoundCommands
   extend ActiveSupport::Autoload
 
   autoload :Command
+  autoload :CompoundCommand
 end
 

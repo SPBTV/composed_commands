@@ -2,26 +2,73 @@ require 'spec_helper'
 
 RSpec.describe CompoundCommands::CompoundCommand do
   let(:input) { double(:input) }
-  subject(:command) { CompoundCommands::Command.new(input) }
 
-  context '.use' do
-    let(:the_first) do
-      Class.new(CompoundCommands::Command)
-    end
-
-    let(:the_second) do
-      Class.new(CompoundCommands::Command)
-    end
-
-    subject(:compound_command) do
-      commands = [the_first, the_second]
-
-      Class.new(described_class) do
-        use commands.first
-        use commands.last
+  let(:the_first) do
+    Class.new(CompoundCommands::Command) do
+      def execute
+        if input.include?(:fail)
+          fail! 'failure message'
+        elsif input.include?(:success)
+          success! 'success result'
+        end
       end
     end
+  end
 
+  let(:the_second) do
+    Class.new(CompoundCommands::Command) do
+      def execute
+        'result'
+      end
+    end
+  end
+
+  subject(:compound_command) do
+    commands = [the_first, the_second]
+
+    Class.new(described_class) do
+      use commands.first
+      use commands.last
+    end
+  end
+
+  context '#perfrorm' do
+    it 'performs successfully' do
+      command = compound_command.new(input)
+      command.perform
+
+      expect(command.result).to eq 'result'
+      expect(command.message).to be_nil
+      expect(command).not_to be_failed
+      expect(command).not_to be_interrupted
+      expect(command).to be_succeed
+    end
+
+    it 'performs with failure! in first command' do
+      command = compound_command.new(:fail)
+
+      command.perform
+
+      expect(command.result).to be_nil
+      expect(command.message).to eq 'failure message'
+      expect(command).to be_failed
+      expect(command).to be_interrupted
+      expect(command).not_to be_succeed
+    end
+
+    it 'performs with success! in first command' do
+      command = compound_command.new(:success)
+
+      command.perform
+
+      expect(command.result).to eq 'success result'
+      expect(command.message).to be_nil
+      expect(command).not_to be_failed
+      expect(command).to be_interrupted
+      expect(command).to be_succeed
+    end
+  end
+  context '.use' do
     it { expect(compound_command.commands.size).to eq 2 }
     it { expect(compound_command.commands.first).to eq the_first }
     it { expect(compound_command.commands.last).to eq the_second }

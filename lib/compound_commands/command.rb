@@ -5,14 +5,18 @@ module CompoundCommands
   class Command
     extend ActiveSupport::Autoload
     autoload :Execution
+    autoload :State
 
     attr_reader :input
     attr_accessor :execution
-    delegate :interrupted?, to: :@execution
+    attr_accessor :state
+    delegate :failed?, :succeed?, :current_state, to: :state
+    delegate :interrupted?, to: :execution
 
     def initialize(*args)
       @input = args
-      @execution  = Execution.new(self)
+      @execution = Execution.new(self)
+      @state = State.new
     end
 
     protected

@@ -8,6 +8,7 @@ module CompoundCommands
     autoload :State
 
     attr_reader :input
+    attr_reader :result
     attr_accessor :execution
     attr_accessor :state
     delegate :failed?, :succeed?, :current_state, to: :state
@@ -19,7 +20,18 @@ module CompoundCommands
       @state = State.new
     end
 
+    def perform
+      execution.perform!
+      @result = execute
+      state.success!
+      execution.done!
+    end
+
     protected
+
+    def execute
+      raise NotImplementedError, "#{self.class.name}#execute not implemented"
+    end
 
     def interrupt(result = nil)
     end

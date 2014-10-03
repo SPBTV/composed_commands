@@ -43,5 +43,11 @@ module CompoundCommands
       execution.interrupt!
       throw :interrupt
     end
+
+    def success!(result)
+      state.success!
+      execution.interrupt!
+      throw :interrupt, result
+    end
   end
 end

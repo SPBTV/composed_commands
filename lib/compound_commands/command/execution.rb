@@ -17,11 +17,6 @@ module CompoundCommands
         state :interrupted
         state :performed
       end
-      delegate :interrupt, to: :@command
-
-      def initialize(command)
-        @command = command
-      end
     end
   end
 end

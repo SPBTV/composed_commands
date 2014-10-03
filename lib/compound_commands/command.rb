@@ -9,6 +9,7 @@ module CompoundCommands
 
     attr_reader :input
     attr_reader :result
+    attr_reader :message
     attr_accessor :execution
     attr_accessor :state
     delegate :failed?, :succeed?, :current_state, to: :state
@@ -16,15 +17,18 @@ module CompoundCommands
 
     def initialize(*args)
       @input = args
-      @execution = Execution.new(self)
+      @execution = Execution.new
       @state = State.new
     end
 
     def perform
-      execution.perform!
-      @result = execute
-      state.success!
-      execution.done!
+      @result = catch(:interrupt) do
+        execution.perform!
+        result = execute
+        state.success!
+        execution.done!
+        result
+      end
     end
 
     protected
@@ -33,7 +37,11 @@ module CompoundCommands
       raise NotImplementedError, "#{self.class.name}#execute not implemented"
     end
 
-    def interrupt(result = nil)
+    def fail!(message)
+      @message = message
+      state.fail!
+      execution.interrupt!
+      throw :interrupt
     end
   end
 end

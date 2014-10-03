@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe CompoundCommands::Command do
   let(:input) { double(:input) }
   let(:result) { double(:result) }
-  let(:execution) { CompoundCommands::Command::Execution.new(command) }
+  let(:execution) { CompoundCommands::Command::Execution.new }
   let(:state) { CompoundCommands::Command::State.new }
 
   subject(:command) { CompoundCommands::Command.new(input) }
@@ -66,5 +66,25 @@ RSpec.describe CompoundCommands::Command do
       command.perform
       expect(command.result).to eq result
     end
+  end
+
+  context '#fail!' do
+    subject(:failing_command) do
+      def command.execute
+        fail! 'failure message'
+        result
+      end
+      command
+    end
+
+    before :example do
+      failing_command.perform
+    end
+
+    it { expect(failing_command.result).to be_nil }
+    it { expect(failing_command.message).to eq 'failure message' }
+    it { expect(failing_command).to be_failed }
+    it { expect(failing_command).to be_interrupted }
+    it { expect(failing_command).not_to be_succeed }
   end
 end

@@ -6,6 +6,8 @@ module CompoundCommands
     extend ActiveSupport::Autoload
     autoload :Execution
     autoload :State
+    autoload :Processes
+    extend Processes
 
     attr_reader :input
     attr_reader :result

@@ -7,8 +7,6 @@ class StringGenerator < CompoundCommands::Command
 end
 
 class StringCapitalizer < CompoundCommands::Command
-  # processes :text
-
   def execute
     input.map(&:upcase)
   end

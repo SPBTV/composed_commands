@@ -68,13 +68,7 @@ RSpec.describe CompoundCommands::Command do
   end
 
   context '#fail!' do
-    subject(:failing_command) do
-      def command.execute
-        fail! 'failure message'
-        'result'
-      end
-      command
-    end
+    subject(:failing_command) { FailingCommand.new(input) }
 
     before :example do
       failing_command.perform
@@ -88,19 +82,13 @@ RSpec.describe CompoundCommands::Command do
   end
 
   context '#success!' do
-    subject(:succeed_command) do
-      def command.execute
-        success! 'result'
-        fail! 'failure message'
-      end
-      command
-    end
+    subject(:succeed_command) { SucceedCommand.new(input) }
 
     before :example do
       succeed_command.perform
     end
 
-    it { expect(succeed_command.result).to eq 'result' }
+    it { expect(succeed_command.result).to eq 'successive result' }
     it { expect(succeed_command.message).to be_nil }
     it { expect(succeed_command).not_to be_failed }
     it { expect(succeed_command).to be_interrupted }

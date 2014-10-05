@@ -15,22 +15,22 @@ module CompoundCommands
     attr_accessor :state
     delegate :failed?, :succeed?, :current_state, to: :state
 
-    def initialize(*args)
-      @options = args.extract_options!
-      @input = args
+    def initialize(*options)
+      @options = options
       @execution = Execution.new
       @state = State.new
-      define_attributes(:execute, args)
     end
 
-    def perform
+    def perform(*args)
+      define_attributes(:execute, args)
       @result = catch(:halt) do
         execution.perform!
-        result = execute(*@input)
+        result = execute(*args)
         state.success!
         execution.done!
         result
       end
+      self
     end
 
     def halted?
@@ -39,7 +39,7 @@ module CompoundCommands
 
     protected
 
-    def execute
+    def execute(*_)
       raise NotImplementedError, "#{self.class.name}#execute not implemented"
     end
 

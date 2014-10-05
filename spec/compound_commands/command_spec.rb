@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe CompoundCommands::Command do
+  let(:string) { 'Chunky Bacon' }
   let(:execution) { CompoundCommands::Command::Execution.new }
   let(:state) { CompoundCommands::Command::State.new }
 
-  subject(:command) { CompoundCommands::Command.new }
+  subject(:command) { StringCapitalizer.new(string) }
 
   context 'delagations' do
     before do
@@ -39,10 +40,11 @@ RSpec.describe CompoundCommands::Command do
 
   context '#perform' do
     before :example do
-      expect(command).to receive(:execute) do |*args|
+      expect(command).to receive(:execute).and_wrap_original do |method, *args|
         expect(command.execution).to be_performing
         expect(command.state).to be_undefined
-        'result'
+
+        method.call(*args)
       end
     end
 
@@ -57,8 +59,9 @@ RSpec.describe CompoundCommands::Command do
     end
 
     it 'yield result' do
-      command.perform
-      expect(command.result).to eq 'result'
+      res = command.perform(string)
+      expect(res).to eq command
+      expect(command.result).to eq 'CHUNKY BACON'
     end
   end
 

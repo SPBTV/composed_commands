@@ -16,10 +16,10 @@ module CompoundCommands
     end
 
     protected
-    def execute(*_)
-      self.class.commands.inject(@input) do |data, command_class|
-        command = build_command(command_class, data)
-        command.perform
+    def execute(*args)
+      self.class.commands.inject(args) do |data, command_class|
+        command = command_class.new
+        command.perform(*Array(data))
 
         if command.halted?
           case
@@ -33,14 +33,6 @@ module CompoundCommands
         end
 
         command.result
-      end
-    end
-
-    def build_command(klass, data)
-      if data.respond_to?(:to_ary)
-        klass.new(*data)
-      else
-        klass.new(data)
       end
     end
   end

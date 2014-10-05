@@ -5,8 +5,8 @@ RSpec.describe CompoundCommands::CompoundCommand do
 
   context '#perfrorm' do
     it 'performs successfully' do
-      command = ChunkyBaconCapitalizer.new(input)
-      command.perform
+      command = ChunkyBaconCapitalizer.new
+      command.perform(input)
 
       expect(command.result).to eq 'CHUNKY BACON'
       expect(command.message).to be_nil

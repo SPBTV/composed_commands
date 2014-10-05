@@ -10,10 +10,6 @@ module CompoundCommands
             define_method(name) do
               input[index]
             end
-
-            define_method("#{name}=") do |value|
-              input[index] = value
-            end
           end
         end
       end

@@ -5,7 +5,7 @@ RSpec.describe CompoundCommands::Command do
   let(:execution) { CompoundCommands::Command::Execution.new }
   let(:state) { CompoundCommands::Command::State.new }
 
-  subject(:command) { StringCapitalizer.new(string) }
+  subject(:command) { StringCapitalizer.new }
 
   context 'delagations' do
     before do

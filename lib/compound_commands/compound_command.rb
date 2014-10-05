@@ -2,6 +2,7 @@ require 'compound_commands/command'
 
 module CompoundCommands
   class CompoundCommand < Command
+
     def self.commands
       inherited_commands = if self.superclass.respond_to?(:commands)
         self.superclass.commands
@@ -11,14 +12,14 @@ module CompoundCommands
       Array(inherited_commands) + Array(@commands)
     end
 
-    def self.use(command_class)
-      (@commands ||= []).push(command_class)
+    def self.use(klass, options = {})
+      (@commands ||= []).push(CompoundCommands::CommandFactory.new(klass, options))
     end
 
     protected
     def execute(*args)
-      self.class.commands.inject(args) do |data, command_class|
-        command = command_class.new
+      self.class.commands.inject(args) do |data, command_factory|
+        command = command_factory.create
         command.perform(*Array(data))
 
         if command.halted?

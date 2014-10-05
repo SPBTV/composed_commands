@@ -1,10 +1,11 @@
+require 'virtus'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/dependencies/autoload'
-require 'active_support/core_ext/array/extract_options'
 
 module CompoundCommands
   class Command
     extend ActiveSupport::Autoload
+    include Virtus.model
     autoload :Execution
     autoload :State
 
@@ -14,10 +15,11 @@ module CompoundCommands
     attr_accessor :state
     delegate :failed?, :succeed?, :current_state, to: :state
 
-    def initialize(*options)
-      @options = options
+    def initialize(options = {})
       @execution = Execution.new
       @state = State.new
+
+      super(options)
     end
 
     def perform(*args)

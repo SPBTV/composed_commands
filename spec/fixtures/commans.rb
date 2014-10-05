@@ -13,9 +13,10 @@ class StringCapitalizer < CompoundCommands::Command
 end
 
 class StringMultiplier < CompoundCommands::Command
+  attribute :multiplicator, Integer, default: '3'
+  attribute :separator, String
+
   def execute(text)
-    multiplicator = 3
-    separator = ' '
     (Array(text) * multiplicator).join(separator)
   end
 end
@@ -52,4 +53,9 @@ end
 class CompoundCommandWithSuccessCommand < CompoundCommands::CompoundCommand
   use SucceedCommand
   use StringGenerator
+end
+
+class ConfigurableChunkyBaconProcessor < CompoundCommands::CompoundCommand
+  use StringGenerator
+  use StringMultiplier, multiplicator: 2, separator: '|'
 end

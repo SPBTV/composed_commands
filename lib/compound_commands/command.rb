@@ -1,15 +1,14 @@
 require 'active_support/core_ext/module/delegation'
 require 'active_support/dependencies/autoload'
+require 'active_support/core_ext/array/extract_options'
 
 module CompoundCommands
   class Command
     extend ActiveSupport::Autoload
     autoload :Execution
     autoload :State
-    autoload :Processes
-    extend Processes
+    include AttributesDefiner
 
-    attr_reader :input
     attr_reader :result
     attr_reader :message
     attr_accessor :execution
@@ -17,21 +16,22 @@ module CompoundCommands
     delegate :failed?, :succeed?, :current_state, to: :state
 
     def initialize(*args)
+      @options = args.extract_options!
       @input = args
       @execution = Execution.new
       @state = State.new
+      define_attributes(:execute, args)
     end
 
     def perform
       @result = catch(:halt) do
         execution.perform!
-        result = execute
+        result = execute(*@input)
         state.success!
         execution.done!
         result
       end
     end
-
 
     def halted?
       execution.interrupted?

@@ -1,15 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe CompoundCommands::Command do
-  let(:input) { double(:input) }
   let(:execution) { CompoundCommands::Command::Execution.new }
   let(:state) { CompoundCommands::Command::State.new }
 
-  subject(:command) { CompoundCommands::Command.new(input) }
-
-  it '#input' do
-    expect(command.input).to contain_exactly input
-  end
+  subject(:command) { CompoundCommands::Command.new }
 
   context 'delagations' do
     before do
@@ -68,7 +63,7 @@ RSpec.describe CompoundCommands::Command do
   end
 
   context '#fail!' do
-    subject(:failing_command) { FailingCommand.new(input) }
+    subject(:failing_command) { FailingCommand.new }
 
     before :example do
       failing_command.perform
@@ -82,7 +77,7 @@ RSpec.describe CompoundCommands::Command do
   end
 
   context '#success!' do
-    subject(:succeed_command) { SucceedCommand.new(input) }
+    subject(:succeed_command) { SucceedCommand.new }
 
     before :example do
       succeed_command.perform

@@ -1,22 +1,22 @@
 require 'compound_commands'
 
 class StringGenerator < CompoundCommands::Command
-  def execute
-    'chunky bacon'
+  def execute(string)
+    string
   end
 end
 
 class StringCapitalizer < CompoundCommands::Command
-  def execute
-    input.map(&:upcase)
+  def execute(text)
+    text.upcase
   end
 end
 
 class StringMultiplier < CompoundCommands::Command
-  def execute
+  def execute(text)
     multiplicator = 3
     separator = ' '
-    (Array(input) * multiplicator).join(separator)
+    (Array(text) * multiplicator).join(separator)
   end
 end
 

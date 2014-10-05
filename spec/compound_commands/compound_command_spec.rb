@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe CompoundCommands::CompoundCommand do
-  let(:input) { double(:input) }
+  let(:input) { 'chunky bacon' }
 
   context '#perfrorm' do
     it 'performs successfully' do
       command = ChunkyBaconCapitalizer.new(input)
       command.perform
 
-      expect(command.result).to contain_exactly 'CHUNKY BACON'
+      expect(command.result).to eq 'CHUNKY BACON'
       expect(command.message).to be_nil
       expect(command).not_to be_failed
       expect(command).not_to be_halted
@@ -16,7 +16,7 @@ RSpec.describe CompoundCommands::CompoundCommand do
     end
 
     it 'performs with failure! in first command' do
-      command = CompoundCommandWithFailingCommand.new(input)
+      command = CompoundCommandWithFailingCommand.new
 
       command.perform
 
@@ -28,7 +28,7 @@ RSpec.describe CompoundCommands::CompoundCommand do
     end
 
     it 'performs with success! in first command' do
-      command = CompoundCommandWithSuccessCommand.new(input)
+      command = CompoundCommandWithSuccessCommand.new
 
       command.perform
 

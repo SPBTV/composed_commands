@@ -5,7 +5,7 @@ module CompoundCommands
     class State
       include Workflow
       workflow do
-        state :initialized do
+        state :undefined do
           event :fail,    transitions_to: :failed
           event :success, transitions_to: :succeed
         end

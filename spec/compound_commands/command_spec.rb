@@ -46,14 +46,14 @@ RSpec.describe CompoundCommands::Command do
     before :example do
       expect(command).to receive(:execute) do |*args|
         expect(command.execution).to be_performing
-        expect(command.state).to be_initialized
+        expect(command.state).to be_undefined
         'result'
       end
     end
 
     before :example do
-      expect(command.execution).to be_initialized
-      expect(command.state).to be_initialized
+      expect(command.execution).to be_pending
+      expect(command.state).to be_undefined
     end
 
     after :example do

@@ -7,7 +7,7 @@ module CompoundCommands
     class Execution
       include Workflow
       workflow do
-        state :initialized do
+        state :pending do
           event :perform,   transitions_to: :performing
         end
         state :performing do

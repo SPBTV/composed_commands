@@ -40,6 +40,7 @@ module CompoundCommands
     end
 
     def fail!(message)
+      # TODO: Move message to result?
       @message = message
       state.fail!
       execution.interrupt!

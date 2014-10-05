@@ -6,6 +6,5 @@ module CompoundCommands
 
   autoload :Command
   autoload :CompoundCommand
-  autoload :AttributesDefiner
 end
 

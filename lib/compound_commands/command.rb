@@ -7,7 +7,6 @@ module CompoundCommands
     extend ActiveSupport::Autoload
     autoload :Execution
     autoload :State
-    include AttributesDefiner
 
     attr_reader :result
     attr_reader :message
@@ -22,7 +21,6 @@ module CompoundCommands
     end
 
     def perform(*args)
-      define_attributes(:execute, args)
       @result = catch(:halt) do
         execution.perform!
         result = execute(*args)

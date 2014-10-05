@@ -21,7 +21,7 @@ module CompoundCommands
         command = command_class.new(*data)
         command.perform
 
-        if command.interrupted?
+        if command.halted?
           case
           when command.failed?
             fail! command.message

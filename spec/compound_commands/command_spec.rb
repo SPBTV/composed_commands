@@ -20,7 +20,7 @@ RSpec.describe CompoundCommands::Command do
     it 'delegate #interrupted? to #execution' do
       expect(execution).to receive(:interrupted?)
 
-      command.interrupted?
+      command.halted?
     end
 
     it 'delegate #failed? to #state' do
@@ -77,7 +77,7 @@ RSpec.describe CompoundCommands::Command do
     it { expect(failing_command.result).to be_nil }
     it { expect(failing_command.message).to eq 'failure message' }
     it { expect(failing_command).to be_failed }
-    it { expect(failing_command).to be_interrupted }
+    it { expect(failing_command).to be_halted }
     it { expect(failing_command).not_to be_succeed }
   end
 
@@ -91,7 +91,7 @@ RSpec.describe CompoundCommands::Command do
     it { expect(succeed_command.result).to eq 'successive result' }
     it { expect(succeed_command.message).to be_nil }
     it { expect(succeed_command).not_to be_failed }
-    it { expect(succeed_command).to be_interrupted }
+    it { expect(succeed_command).to be_halted }
     it { expect(succeed_command).to be_succeed }
   end
 end

@@ -11,7 +11,7 @@ RSpec.describe CompoundCommands::CompoundCommand do
       expect(command.result).to contain_exactly 'CHUNKY BACON'
       expect(command.message).to be_nil
       expect(command).not_to be_failed
-      expect(command).not_to be_interrupted
+      expect(command).not_to be_halted
       expect(command).to be_succeed
     end
 
@@ -23,7 +23,7 @@ RSpec.describe CompoundCommands::CompoundCommand do
       expect(command.result).to be_nil
       expect(command.message).to eq 'failure message'
       expect(command).to be_failed
-      expect(command).to be_interrupted
+      expect(command).to be_halted
       expect(command).not_to be_succeed
     end
 
@@ -35,7 +35,7 @@ RSpec.describe CompoundCommands::CompoundCommand do
       expect(command.result).to eq 'successive result'
       expect(command.message).to be_nil
       expect(command).not_to be_failed
-      expect(command).to be_interrupted
+      expect(command).to be_halted
       expect(command).to be_succeed
     end
   end

@@ -15,7 +15,6 @@ module CompoundCommands
     attr_accessor :execution
     attr_accessor :state
     delegate :failed?, :succeed?, :current_state, to: :state
-    delegate :interrupted?, to: :execution
 
     def initialize(*args)
       @input = args
@@ -24,13 +23,18 @@ module CompoundCommands
     end
 
     def perform
-      @result = catch(:interrupt) do
+      @result = catch(:halt) do
         execution.perform!
         result = execute
         state.success!
         execution.done!
         result
       end
+    end
+
+
+    def halted?
+      execution.interrupted?
     end
 
     protected
@@ -44,13 +48,13 @@ module CompoundCommands
       @message = message
       state.fail!
       execution.interrupt!
-      throw :interrupt
+      throw :halt
     end
 
     def success!(result)
       state.success!
       execution.interrupt!
-      throw :interrupt, result
+      throw :halt, result
     end
   end
 end

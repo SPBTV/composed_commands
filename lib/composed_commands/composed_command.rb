@@ -16,10 +16,17 @@ module ComposedCommands
       (@commands ||= []).push(ComposedCommands::CommandFactory.new(klass, options))
     end
 
+    def commands
+      self.class.commands.map do |command_factory|
+        command = command_factory.create
+        before_execute(command) if respond_to? :before_execute
+        command
+      end
+    end
+
     protected
     def execute(*args)
-      self.class.commands.inject(args) do |data, command_factory|
-        command = command_factory.create
+      commands.inject(args) do |data, command|
         command.perform(*Array(data))
 
         if command.halted?

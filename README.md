@@ -175,7 +175,27 @@ class SomeComposedCommand < ComposedCommands::ComposedCommand
  end
 ```
 
-This based on [Composable Operations](https://github.com/t6d/composable_operations) written by Konstantin Tennhard
+You can configure part of Composed Command at runtime using `before_execute` callback':
+
+```ruby
+class AbilityChecker < ComposedCommands::ComposedCommand
+  attribute :user, User, require: true
+
+  use Presence
+  use RegisteredAt, after: '2010-10-10
+  use Admin
+  # ...
+
+  def before_execute(command)
+    command.user = user
+  end
+end
+
+ability = AbilityChecker.new(user: current_user)
+ability.perform(post)
+```
+
+This gem based on [Composable Operations](https://github.com/t6d/composable_operations) written by Konstantin Tennhard
 
 ## Contributing
 

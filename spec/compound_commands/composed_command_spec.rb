@@ -4,6 +4,15 @@ RSpec.describe ComposedCommands::ComposedCommand do
   let(:input) { 'chunky bacon' }
 
   context '#perfrorm' do
+    it 'run factory creation callback' do
+      command = ChunkyBaconCapitalizer.new
+      def command.before_execute(command)
+      end
+      expect(command).to receive(:before_execute).twice
+
+      command.perform(input)
+    end
+
     it 'performs successfully' do
       command = ChunkyBaconCapitalizer.new
       command.perform(input)

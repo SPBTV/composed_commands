@@ -1,6 +1,6 @@
-# ChainableCommands
+# ComposedCommands
 
-Chainable Commands is a tool set for creating commands and assembling
+Composed Commands is a tool set for creating commands and assembling
 multiple of these commands in operation pipelines. A command is, at its
 core, an implementation of the [strategy
 pattern](http://en.wikipedia.org/wiki/Strategy_pattern) and in this sense an
@@ -12,7 +12,7 @@ can be part of other pipelines.
 
 Add this line to your application's Gemfile:
 
-    gem 'chainable_commands'
+    gem 'composed_commands'
 
 And then execute:
 
@@ -20,25 +20,25 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install chainable_commands
+    $ gem install composed_commands
 
 ## Usage
 
-Operations can be defined by subclassing `ChainableCommands::Command` and
-operation pipelines by subclassing `ChainableCommands::ChainableCommand`.
+Operations can be defined by subclassing `ComposedCommands::Command` and
+operation pipelines by subclassing `ComposedCommands::ComposedCommand`.
 
 ### Defining an Command
 
 To define an command, two steps are necessary:
 
-1. create a new subclass of `ChainableCommands::Command`, and
+1. create a new subclass of `ComposedCommands::Command`, and
 2. implement the `#execute` method.
 
 The listing below shows an operation that extracts a timestamp in the format
 `yyyy-mm-dd` from a string.
 
 ```ruby
-class DateExtractor < ChainableCommands::Command
+class DateExtractor < ComposedCommands::Command
   def execute(text)
     text.scan(/(\d{4})-(\d{2})-(\d{2})/)
   end
@@ -73,7 +73,7 @@ into actual `Time` objects. The following listing provides a potential
 implementation of such an operation.
 
 ```ruby
-class DateArrayToTimeObjectConverter < ChainableCommands::Command
+class DateArrayToTimeObjectConverter < ComposedCommands::Command
 
   def execute(collection_of_date_arrays)
     collection_of_date_arrays.map do |date_array|
@@ -88,14 +88,14 @@ Using these two commands, it is possible to create a composed command that
 extracts dates from a string and directly converts them into `Time` objects. To
 define a composed command, two steps are necessary:
 
-1. create a subclass of `ChainableCommands::ChainableCommand`, and
+1. create a subclass of `ComposedCommands::ComposedCommand`, and
 2. use the macro method `use` to assemble the command.
 
 The listing below shows how to assemble the two commands, `DateExtractor` and
 `DateArrayToTimeObjectConverter`, into a composed command named `DateParser`.
 
 ```ruby
-class DateParser < ChainableCommands::ChainableCommand
+class DateParser < ComposedCommands::ComposedCommand
 
   use DateExtractor
   use DateArrayToTimeObjectConverter
@@ -148,7 +148,7 @@ is set to 2 by default but can easily be changed by supplying an options hash
 to the initializer.
 
 ```ruby
-class Indention < ChainableCommands::Command
+class Indention < ComposedCommands::Command
   attribute :indent, Integer, default: 2, required: true
 
   def execute(text)
@@ -166,7 +166,7 @@ the `.use` method with a hash of options as the second argument. See the
 listing below for an example.
 
 ```ruby
-class SomeChainableCommand < ChainableCommands::ChainableCommand
+class SomeComposedCommand < ComposedCommands::ComposedCommand
 
   # ...
   use Indention, indent: 4

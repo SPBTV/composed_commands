@@ -3,7 +3,7 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/array/extract_options'
 require 'active_support/dependencies/autoload'
 
-module ChainableCommands
+module ComposedCommands
   class Command
     extend ActiveSupport::Autoload
     include Virtus.model

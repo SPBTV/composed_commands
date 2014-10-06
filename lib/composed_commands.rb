@@ -1,10 +1,10 @@
-require "chainable_commands/version"
+require "composed_commands/version"
 require 'active_support/dependencies/autoload'
 
-module ChainableCommands
+module ComposedCommands
   extend ActiveSupport::Autoload
 
   autoload :Command
-  autoload :ChainableCommand
+  autoload :ComposedCommand
 end
 

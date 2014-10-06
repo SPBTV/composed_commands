@@ -1,18 +1,18 @@
-require 'chainable_commands'
+require 'composed_commands'
 
-class StringGenerator < ChainableCommands::Command
+class StringGenerator < ComposedCommands::Command
   def execute(string)
     string
   end
 end
 
-class StringCapitalizer < ChainableCommands::Command
+class StringCapitalizer < ComposedCommands::Command
   def execute(text)
     text.upcase
   end
 end
 
-class StringMultiplier < ChainableCommands::Command
+class StringMultiplier < ComposedCommands::Command
   attribute :multiplicator, Integer, default: '3'
   attribute :separator, String
 
@@ -21,14 +21,14 @@ class StringMultiplier < ChainableCommands::Command
   end
 end
 
-class FailingCommand < ChainableCommands::Command
+class FailingCommand < ComposedCommands::Command
   def execute
     fail! 'failure message'
     input
   end
 end
 
-class SucceedCommand < ChainableCommands::Command
+class SucceedCommand < ComposedCommands::Command
   def execute
     success! 'successive result'
     fail! 'failure message'
@@ -36,7 +36,7 @@ class SucceedCommand < ChainableCommands::Command
 end
 
 
-class ChunkyBaconCapitalizer < ChainableCommands::ChainableCommand
+class ChunkyBaconCapitalizer < ComposedCommands::ComposedCommand
   use StringGenerator
   use StringCapitalizer
 end
@@ -45,17 +45,17 @@ class ChunkyBaconCapitalizerWithMuliplication < ChunkyBaconCapitalizer
   use StringMultiplier
 end
 
-class CompoundCommandWithFailingCommand < ChainableCommands::ChainableCommand
+class CompoundCommandWithFailingCommand < ComposedCommands::ComposedCommand
   use FailingCommand
   use StringGenerator
 end
 
-class CompoundCommandWithSuccessCommand < ChainableCommands::ChainableCommand
+class CompoundCommandWithSuccessCommand < ComposedCommands::ComposedCommand
   use SucceedCommand
   use StringGenerator
 end
 
-class ConfigurableChunkyBaconProcessor < ChainableCommands::ChainableCommand
+class ConfigurableChunkyBaconProcessor < ComposedCommands::ComposedCommand
   use StringGenerator
   use StringMultiplier, multiplicator: 2, separator: '|'
 end

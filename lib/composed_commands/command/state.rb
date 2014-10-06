@@ -1,6 +1,6 @@
 require 'workflow'
 
-module ChainableCommands
+module ComposedCommands
   class Command
     class State
       include Workflow

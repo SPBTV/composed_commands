@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe ChainableCommands::ChainableCommand, 'attributes' do
+RSpec.describe ComposedCommands::ComposedCommand, 'attributes' do
   let(:input) { 'chunky bacon' }
 
   subject(:command) { ConfigurableChunkyBaconProcessor.new }

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe ChainableCommands::Command do
+RSpec.describe ComposedCommands::Command do
   let(:string) { 'Chunky Bacon' }
-  let(:execution) { ChainableCommands::Command::Execution.new }
-  let(:state) { ChainableCommands::Command::State.new }
+  let(:execution) { ComposedCommands::Command::Execution.new }
+  let(:state) { ComposedCommands::Command::State.new }
 
   subject(:command) { StringCapitalizer.new }
 

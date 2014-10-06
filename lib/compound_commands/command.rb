@@ -1,5 +1,6 @@
 require 'virtus'
 require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/array/extract_options'
 require 'active_support/dependencies/autoload'
 
 module CompoundCommands
@@ -20,6 +21,11 @@ module CompoundCommands
       @state = State.new
 
       super(options)
+    end
+
+    def self.perform(*args)
+      options = args.extract_options!
+      new(options).perform(*args)
     end
 
     def perform(*args)

@@ -65,6 +65,17 @@ RSpec.describe CompoundCommands::Command do
     end
   end
 
+  context '.perform' do
+    let(:multiplicator) { 2 }
+    let(:separator) { '|' }
+
+    subject(:command) { StringMultiplier.perform(string, multiplicator: multiplicator, separator: separator) }
+    it { expect(command.multiplicator).to eq multiplicator }
+    it { expect(command.separator).to eq separator }
+    it { expect(command.result).to eq "#{string}|#{string}" }
+    it { expect(command).to be_succeed }
+
+  end
   context '#fail!' do
     subject(:failing_command) { FailingCommand.new }
 

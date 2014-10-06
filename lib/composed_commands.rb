@@ -5,6 +5,7 @@ module ComposedCommands
   extend ActiveSupport::Autoload
 
   autoload :Command
+  autoload :CommandFactory
   autoload :ComposedCommand
 end
 

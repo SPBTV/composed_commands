@@ -43,16 +43,16 @@ RSpec.describe ComposedCommands::ComposedCommand do
   context '.use' do
     subject(:command) { ChunkyBaconCapitalizer }
     it { expect(command.commands.size).to eq 2 }
-    it { expect(command.commands.first).to be_kind_of StringGenerator }
-    it { expect(command.commands.last).to be_kind_of StringCapitalizer }
+    it { expect(command.commands.first.command).to eq StringGenerator }
+    it { expect(command.commands.last.command).to eq StringCapitalizer }
 
     context 'inherited compound commands' do
       subject(:child_command) { ChunkyBaconCapitalizerWithMuliplication }
 
       it { expect(child_command.commands.size).to eq 3 }
-      it { expect(child_command.commands[0]).to be_kind_of StringGenerator }
-      it { expect(child_command.commands[1]).to be_kind_of StringCapitalizer }
-      it { expect(child_command.commands[2]).to be_kind_of StringMultiplier }
+      it { expect(child_command.commands[0].command).to eq StringGenerator }
+      it { expect(child_command.commands[1].command).to eq StringCapitalizer }
+      it { expect(child_command.commands[2].command).to eq StringMultiplier }
     end
   end
 end

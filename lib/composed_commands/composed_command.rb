@@ -13,12 +13,13 @@ module ComposedCommands
     end
 
     def self.use(klass, options = {})
-      (@commands ||= []).push(klass.new(options))
+      (@commands ||= []).push(ComposedCommands::CommandFactory.new(klass, options))
     end
 
     protected
     def execute(*args)
-      self.class.commands.inject(args) do |data, command|
+      self.class.commands.inject(args) do |data, command_factory|
+        command = command_factory.create
         command.perform(*Array(data))
 
         if command.halted?

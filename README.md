@@ -131,9 +131,10 @@ class StrictDateParser < DateParser
   end
 
 end
-parser = StrictDateParser.new("")
+
+parser = StrictDateParser.new
+parser.perform("")
 parser.message # => "no timestamp found"
-parser.perform
 parser.succeed? # => false
 parser.failed? # => true
 ```

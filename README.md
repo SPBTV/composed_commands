@@ -175,6 +175,8 @@ class SomeComposedCommand < ComposedCommands::ComposedCommand
  end
 ```
 
+This based on [Composable Operations](https://github.com/t6d/composable_operations) written by Konstantin Tennhard
+
 ## Contributing
 
 1. Fork it

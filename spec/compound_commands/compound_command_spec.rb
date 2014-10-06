@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe CompoundCommands::CompoundCommand do
+RSpec.describe ChainableCommands::ChainableCommand do
   let(:input) { 'chunky bacon' }
 
   context '#perfrorm' do

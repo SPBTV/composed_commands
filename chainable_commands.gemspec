@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'compound_commands/version'
+require 'chainable_commands/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'compound_commands'
-  spec.version       = CompoundCommands::VERSION
+  spec.name          = 'chainable_commands'
+  spec.version       = ChainableCommands::VERSION
   spec.authors       = ['TODO: Write your name']
   spec.email         = ['abolshakov@spbtv.com']
   spec.summary       = %q{TODO: Write a short summary. Required.}

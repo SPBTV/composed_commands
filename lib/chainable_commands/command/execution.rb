@@ -2,7 +2,7 @@ require 'workflow'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/dependencies/autoload'
 
-module CompoundCommands
+module ChainableCommands
   class Command
     class Execution
       include Workflow

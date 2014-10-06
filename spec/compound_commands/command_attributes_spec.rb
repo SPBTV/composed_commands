@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe CompoundCommands::Command, 'attributes' do
+RSpec.describe ChainableCommands::Command, 'attributes' do
   let(:string) { 'chunky bacon' }
   subject(:command) { StringMultiplier.new(separator: '/') }
 

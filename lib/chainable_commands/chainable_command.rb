@@ -1,7 +1,7 @@
-require 'compound_commands/command'
+require 'chainable_commands/command'
 
-module CompoundCommands
-  class CompoundCommand < Command
+module ChainableCommands
+  class ChainableCommand < Command
 
     def self.commands
       inherited_commands = if self.superclass.respond_to?(:commands)

@@ -1,18 +1,18 @@
-require 'compound_commands'
+require 'chainable_commands'
 
-class StringGenerator < CompoundCommands::Command
+class StringGenerator < ChainableCommands::Command
   def execute(string)
     string
   end
 end
 
-class StringCapitalizer < CompoundCommands::Command
+class StringCapitalizer < ChainableCommands::Command
   def execute(text)
     text.upcase
   end
 end
 
-class StringMultiplier < CompoundCommands::Command
+class StringMultiplier < ChainableCommands::Command
   attribute :multiplicator, Integer, default: '3'
   attribute :separator, String
 
@@ -21,14 +21,14 @@ class StringMultiplier < CompoundCommands::Command
   end
 end
 
-class FailingCommand < CompoundCommands::Command
+class FailingCommand < ChainableCommands::Command
   def execute
     fail! 'failure message'
     input
   end
 end
 
-class SucceedCommand < CompoundCommands::Command
+class SucceedCommand < ChainableCommands::Command
   def execute
     success! 'successive result'
     fail! 'failure message'
@@ -36,7 +36,7 @@ class SucceedCommand < CompoundCommands::Command
 end
 
 
-class ChunkyBaconCapitalizer < CompoundCommands::CompoundCommand
+class ChunkyBaconCapitalizer < ChainableCommands::ChainableCommand
   use StringGenerator
   use StringCapitalizer
 end
@@ -45,17 +45,17 @@ class ChunkyBaconCapitalizerWithMuliplication < ChunkyBaconCapitalizer
   use StringMultiplier
 end
 
-class CompoundCommandWithFailingCommand < CompoundCommands::CompoundCommand
+class CompoundCommandWithFailingCommand < ChainableCommands::ChainableCommand
   use FailingCommand
   use StringGenerator
 end
 
-class CompoundCommandWithSuccessCommand < CompoundCommands::CompoundCommand
+class CompoundCommandWithSuccessCommand < ChainableCommands::ChainableCommand
   use SucceedCommand
   use StringGenerator
 end
 
-class ConfigurableChunkyBaconProcessor < CompoundCommands::CompoundCommand
+class ConfigurableChunkyBaconProcessor < ChainableCommands::ChainableCommand
   use StringGenerator
   use StringMultiplier, multiplicator: 2, separator: '|'
 end

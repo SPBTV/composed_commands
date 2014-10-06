@@ -6,10 +6,10 @@ require 'composed_commands/version'
 Gem::Specification.new do |spec|
   spec.name          = 'composed_commands'
   spec.version       = ComposedCommands::VERSION
-  spec.authors       = ['TODO: Write your name']
+  spec.authors       = ['Tema Bolshakov']
   spec.email         = ['abolshakov@spbtv.com']
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = "Tool for creating commands and commands chains."
+  spec.description   = "Tool for creating commands and commands chains."
   spec.homepage      = ""
   spec.license       = 'Apache License, Version 2.0'
 
